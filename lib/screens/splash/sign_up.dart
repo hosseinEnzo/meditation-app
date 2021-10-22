@@ -5,17 +5,16 @@ import 'package:meditation/controller/form_store.dart';
 import 'package:meditation/utils/locator.dart';
 import 'package:meditation/widgets/most_used_btn.dart';
 
-import '../main.dart';
-import 'main_pages/main_home_page.dart';
+import '../main_pages/main_home_page.dart';
 
-class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+class SignUp extends StatefulWidget {
+  const SignUp({Key? key}) : super(key: key);
 
   @override
-  State<Login> createState() => _LoginState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _LoginState extends State<Login> {
+class _SignUpState extends State<SignUp> {
   late ControllerStore _controllerStore;
   late FormStore _formStore;
 
@@ -37,37 +36,29 @@ class _LoginState extends State<Login> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            "Sign In",
+            "Sign Up",
             style: TextStyle(
                 fontSize: 35, color: Colors.white, fontWeight: FontWeight.bold),
           ),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(
-                2,
+                3,
                 (index) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-
+                      padding: const EdgeInsets.only(top: 8.0),
                       child: Container(
                         decoration: const BoxDecoration(
                             border: Border(
                                 bottom: BorderSide(color: Colors.white70))),
                         child: Observer(
                           builder: (context) => TextField(
-
-
-                            onChanged: (value) => index == 0
-                                ? _formStore.validateEmail(value)
-                                : _formStore.validatePassword(value) ,
+                            onChanged: (value) => onChanged(index, value),
                             style: const TextStyle(color: Colors.white),
-
-                            obscureText: index==1?true:false,
                             cursorColor: Colors.green,
                             decoration: InputDecoration(
-                                errorText: index == 0
-                                    ? _formStore.error.email
-                                    : _formStore.error.password,
                                 border: InputBorder.none,
-                                hintText: index == 0 ? "Email" : "Password",
+                                hintText: label(index),
+                                errorText: errorText(index),
                                 hintStyle:
                                     const TextStyle(color: Colors.white70)),
                           ),
@@ -79,21 +70,68 @@ class _LoginState extends State<Login> {
             child: MostUsedBtn(
               size: size,
               function: () {
-                print("loginh");
+                print("sign Up");
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  MainHomePage(),));
               },
-              richText: "Don’t have an account",
-              richText2: "Sign Up",
-              buttonText: "login",
+              richText: "Have an account ?",
+              richText2: "Login",
+              buttonText: "Sign Up",
               titleFunc: () {
-                _controllerStore.switchToRegister();
-
-                _controllerStore.setRegister();
+                _controllerStore.switchToLogin();
+                _controllerStore.setLogin();
               },
             ),
           )
         ],
       ),
     );
+  }
+
+  String label(int number) {
+    switch (number) {
+      case (0):
+        return "Name";
+
+      case (1):
+        return "Email Address";
+
+      case (2):
+        return "Password";
+
+      default:
+        return "error!";
+    }
+  }
+
+  void onChanged(int number, String value) {
+    switch (number) {
+      case (0):
+        _formStore.validateUsername(value);
+        break;
+
+      case (1):
+        _formStore.validateEmail(value);
+        break;
+
+      case (2):
+        _formStore.validatePassword(value);
+        break;
+    }
+  }
+
+  String errorText(int number) {
+    switch (number) {
+      case (0):
+        return _formStore.error.username ?? "";
+
+      case (1):
+        return _formStore.error.email ?? "";
+
+      case (2):
+        return _formStore.error.password ?? "";
+
+      default:
+        return "";
+    }
   }
 }

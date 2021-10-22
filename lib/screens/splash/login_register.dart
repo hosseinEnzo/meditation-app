@@ -4,12 +4,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meditation/controller/controller_store.dart';
-import 'package:meditation/screens/sign_up.dart';
+import 'package:meditation/screens/splash/sign_up.dart';
 import 'package:meditation/utils/locator.dart';
 import 'package:meditation/utils/storage.dart';
 import 'package:meditation/widgets/most_used_btn.dart';
 
-import '../consts.dart';
+import '../../consts.dart';
 import 'login.dart';
 
 final box = GetStorage();

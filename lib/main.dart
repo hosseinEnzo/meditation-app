@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:meditation/consts.dart';
-import 'package:meditation/screens/splash_sc.dart';
+import 'package:meditation/screens/splash/splash_sc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:meditation/utils/locator.dart';
 

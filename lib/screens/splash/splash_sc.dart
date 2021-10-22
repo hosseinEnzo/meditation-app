@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:meditation/controller/controller_store.dart';
-import 'package:meditation/screens/login_register.dart';
+import 'package:meditation/screens/splash/login_register.dart';
 import 'package:meditation/utils/locator.dart';
 import 'package:meditation/utils/storage.dart';
 import 'package:meditation/widgets/most_used_btn.dart';
 
-import '../consts.dart';
+import '../../consts.dart';
 class SplashSc extends StatefulWidget {
   const SplashSc({Key? key}) : super(key: key);
 

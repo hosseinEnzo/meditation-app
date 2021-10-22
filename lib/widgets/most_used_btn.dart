@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:meditation/controller/controller_store.dart';
-import 'package:meditation/screens/login_register.dart';
-import 'package:meditation/screens/sign_up.dart';
+import 'package:meditation/screens/splash/login_register.dart';
+import 'package:meditation/screens/splash/sign_up.dart';
 import 'package:meditation/utils/locator.dart';
 
 import '../consts.dart';
