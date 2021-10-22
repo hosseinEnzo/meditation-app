@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:meditation/controller/controller_store.dart';
 import 'package:meditation/controller/form_store.dart';
 import 'package:meditation/utils/locator.dart';
+import 'package:meditation/utils/show_snack_bar.dart';
 import 'package:meditation/widgets/most_used_btn.dart';
 
 import '../main_pages/main_home_page.dart';
@@ -71,7 +72,8 @@ class _SignUpState extends State<SignUp> {
               size: size,
               function: () {
                 print("sign Up");
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  MainHomePage(),));
+                _formStore.canRegister?
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  const MainHomePage(),)):Utils(context).showSnackBar("please fill all field's corectly", Icons.warning, Colors.amber);
               },
               richText: "Have an account ?",
               richText2: "Login",

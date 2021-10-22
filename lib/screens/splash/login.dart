@@ -4,7 +4,7 @@ import 'package:meditation/controller/controller_store.dart';
 import 'package:meditation/controller/form_store.dart';
 import 'package:meditation/utils/locator.dart';
 import 'package:meditation/widgets/most_used_btn.dart';
-
+import '../../utils/show_snack_bar.dart';
 import '../../main.dart';
 import '../main_pages/main_home_page.dart';
 
@@ -46,21 +46,17 @@ class _LoginState extends State<Login> {
                 2,
                 (index) => Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
-
                       child: Container(
                         decoration: const BoxDecoration(
                             border: Border(
                                 bottom: BorderSide(color: Colors.white70))),
                         child: Observer(
                           builder: (context) => TextField(
-
-
                             onChanged: (value) => index == 0
                                 ? _formStore.validateEmail(value)
-                                : _formStore.validatePassword(value) ,
+                                : _formStore.validatePassword(value),
                             style: const TextStyle(color: Colors.white),
-
-                            obscureText: index==1?true:false,
+                            obscureText: index == 1 ? true : false,
                             cursorColor: Colors.green,
                             decoration: InputDecoration(
                                 errorText: index == 0
@@ -80,7 +76,13 @@ class _LoginState extends State<Login> {
               size: size,
               function: () {
                 print("loginh");
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  MainHomePage(),));
+                _formStore.canLogin
+                    ? Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MainHomePage(),
+                        ))
+                    : Utils(context).showSnackBar("please fill all field's corectly", Icons.warning, Colors.amber);
               },
               richText: "Don’t have an account",
               richText2: "Sign Up",
