@@ -15,6 +15,13 @@ mixin _$FormStore on _FormStore, Store {
   bool get canLogin => (_$canLoginComputed ??=
           Computed<bool>(() => super.canLogin, name: '_FormStore.canLogin'))
       .value;
+  Computed<bool>? _$canRegisterComputed;
+
+  @override
+  bool get canRegister =>
+      (_$canRegisterComputed ??= Computed<bool>(() => super.canRegister,
+              name: '_FormStore.canRegister'))
+          .value;
 
   final _$nameAtom = Atom(name: '_FormStore.name');
 
@@ -131,19 +138,20 @@ name: ${name},
 email: ${email},
 password: ${password},
 usernameCheck: ${usernameCheck},
-canLogin: ${canLogin}
+canLogin: ${canLogin},
+canRegister: ${canRegister}
     ''';
   }
 }
 
 mixin _$FormErrorState on _FormErrorState, Store {
-  Computed<bool>? _$hasErrorsComputed;
+  Computed<bool>? _$hasErrorRegisterComputed;
 
   @override
-  bool get hasErrors =>
-      (_$hasErrorsComputed ??= Computed<bool>(() => super.hasErrors,
-              name: '_FormErrorState.hasErrors'))
-          .value;
+  bool get hasErrorRegister => (_$hasErrorRegisterComputed ??= Computed<bool>(
+          () => super.hasErrorRegister,
+          name: '_FormErrorState.hasErrorRegister'))
+      .value;
 
   final _$usernameAtom = Atom(name: '_FormErrorState.username');
 
@@ -196,7 +204,7 @@ mixin _$FormErrorState on _FormErrorState, Store {
 username: ${username},
 email: ${email},
 password: ${password},
-hasErrors: ${hasErrors}
+hasErrorRegister: ${hasErrorRegister}
     ''';
   }
 }

@@ -30,7 +30,10 @@ abstract class _FormStore with Store {
 
 
   @computed
-  bool get canLogin => !error.hasErrors;
+  bool get canLogin => !error.hasErrorLogin;
+
+  @computed
+  bool get canRegister => !error.hasErrorRegister;
 
   @observable
   late List<ReactionDisposer> _disposers;
@@ -108,5 +111,7 @@ abstract class _FormErrorState with Store {
   String? password;
 
   @computed
-  bool get hasErrors => username != null || email != null || password != null;
+  bool get hasErrorRegister => username != null || email != null || password != null;
+  bool get hasErrorLogin =>  email != null || password != null;
+
 }
