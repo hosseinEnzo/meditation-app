@@ -48,6 +48,9 @@ dependencies:
   fl_chart: ^0.40.2
   wave: ^0.2.0
   just_audio: ^0.9.14
+  flutter_neumorphic_null_safety: ^3.2.4
+
+
 
 
 

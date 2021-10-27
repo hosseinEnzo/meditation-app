@@ -27,12 +27,13 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Expanded(
+
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
 
                   children: const [
                     CircleAvatar(
-                      radius: 80,
+                      radius: 65,
                       backgroundImage: AssetImage(kProfilePic),
                     ),
                     Text("Afreen Khan",style: TextStyle(color: Colors.white,fontSize: 33,fontWeight: FontWeight.bold),)

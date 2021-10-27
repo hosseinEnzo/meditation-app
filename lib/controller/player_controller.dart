@@ -1,12 +1,26 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:mobx/mobx.dart';
 
 part 'player_controller.g.dart';
 
-class PlayerStore = _PlayerStore with _$PlayerStore;
+class PlayerController = _PlayerController with _$PlayerController;
 
-abstract class _PlayerStore with Store {
+abstract class _PlayerController with Store {
+  @observable
+  var player = AudioPlayer();
 
+  @observable
+  Duration? duration;
+
+
+
+  @action
+  Future<void> setDuration() async {
+    duration = await player.setAsset('assets/audio/song.mp3');
+  }
 
   @observable
   String imageAdress = "";
@@ -17,11 +31,6 @@ abstract class _PlayerStore with Store {
   @observable
   String songName = "";
 
-  @observable
-  late VoidCallback flip;
-
-
-
   @action
   void setImage(String address) {
     imageAdress = address;
@@ -29,7 +38,13 @@ abstract class _PlayerStore with Store {
 
   @action
   void playPause() {
-    isPlaying =!isPlaying;
+    isPlaying ? player.pause() : player.play();
+    isPlaying = !isPlaying;
+  }
+
+  @action
+  void seekTo(Duration duration) {
+    player.seek(duration);
   }
 
   @action
@@ -37,7 +52,6 @@ abstract class _PlayerStore with Store {
     songName = name;
   }
 
-
-
-
+  @computed
+  Duration get position =>player.position;
 }

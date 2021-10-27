@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
 
-part "controller_store.g.dart";
+part "splash_controller.g.dart";
 
-class ControllerStore = _ControllerStore with _$ControllerStore;
+class SplashController = _SplashController with _$SplashController;
 
-abstract class _ControllerStore with Store {
+abstract class _SplashController with Store {
   @observable
   PageController pageController = PageController();
 

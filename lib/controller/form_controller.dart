@@ -1,15 +1,15 @@
 import 'package:mobx/mobx.dart';
 import 'package:validators2/validators.dart';
 
-part 'form_store.g.dart';
+part 'form_controller.g.dart';
 
 // class CustomColor extends Color {
 //   CustomColor(int value) : super(value);
 // }
 
-class FormStore = _FormStore with _$FormStore;
+class FormController = _FormController with _$FormController;
 
-abstract class _FormStore with Store {
+abstract class _FormController with Store {
   final FormErrorState error = FormErrorState();
 
   // @observable

@@ -25,12 +25,12 @@ class SongWidget extends StatefulWidget {
 }
 
 class _SongWidgetState extends State<SongWidget> {
-  late PlayerStore _playerStore;
+  late PlayerController _playerController;
 
   @override
   void initState() {
     // TODO: implement initState
-    _playerStore = locator<PlayerStore>();
+    _playerController = locator<PlayerController>();
     super.initState();
   }
 
@@ -41,8 +41,8 @@ class _SongWidgetState extends State<SongWidget> {
       child:
       GestureDetector(
         onTap: () {
-          _playerStore.setImage(widget.imgAddress);
-          _playerStore.setName(widget.topTitle);
+          _playerController.setImage(widget.imgAddress);
+          _playerController.setName(widget.topTitle);
           Navigator.push(context, CupertinoPageRoute(builder:  (context) => const Player(),));
 
         },

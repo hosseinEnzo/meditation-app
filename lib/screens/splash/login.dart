@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:meditation/controller/controller_store.dart';
-import 'package:meditation/controller/form_store.dart';
+import 'package:meditation/controller/splash_controller.dart';
+import 'package:meditation/controller/form_controller.dart';
 import 'package:meditation/utils/locator.dart';
 import 'package:meditation/widgets/most_used_btn.dart';
 import '../../utils/show_snack_bar.dart';
@@ -16,15 +16,15 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  late ControllerStore _controllerStore;
-  late FormStore _formStore;
+  late SplashController _splashController;
+  late FormController _formController;
 
   @override
   void initState() {
     // TODO: implement initState
-    _controllerStore = locator<ControllerStore>();
-    _formStore = locator<FormStore>();
-    _formStore.validateAll();
+    _splashController = locator<SplashController>();
+    _formController = locator<FormController>();
+    _formController.validateAll();
 
     super.initState();
   }
@@ -53,15 +53,15 @@ class _LoginState extends State<Login> {
                         child: Observer(
                           builder: (context) => TextField(
                             onChanged: (value) => index == 0
-                                ? _formStore.validateEmail(value)
-                                : _formStore.validatePassword(value),
+                                ? _formController.validateEmail(value)
+                                : _formController.validatePassword(value),
                             style: const TextStyle(color: Colors.white),
                             obscureText: index == 1 ? true : false,
                             cursorColor: Colors.green,
                             decoration: InputDecoration(
                                 errorText: index == 0
-                                    ? _formStore.error.email
-                                    : _formStore.error.password,
+                                    ? _formController.error.email
+                                    : _formController.error.password,
                                 border: InputBorder.none,
                                 hintText: index == 0 ? "Email" : "Password",
                                 hintStyle:
@@ -76,7 +76,7 @@ class _LoginState extends State<Login> {
               size: size,
               function: () {
                 print("loginh");
-                _formStore.canLogin
+                _formController.canLogin
                     ? Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
@@ -88,9 +88,9 @@ class _LoginState extends State<Login> {
               richText2: "Sign Up",
               buttonText: "login",
               titleFunc: () {
-                _controllerStore.switchToRegister();
+                _splashController.switchToRegister();
 
-                _controllerStore.setRegister();
+                _splashController.setRegister();
               },
             ),
           )

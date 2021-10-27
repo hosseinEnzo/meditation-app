@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:meditation/controller/controller_store.dart';
+import 'package:meditation/controller/splash_controller.dart';
 import 'package:meditation/screens/splash/login_register.dart';
 import 'package:meditation/utils/locator.dart';
 import 'package:meditation/utils/storage.dart';
@@ -26,7 +26,7 @@ class _SplashScState extends State<SplashSc> with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation =
       CurvedAnimation(parent: _controller, curve: Curves.easeIn);
-  late ControllerStore _controllerStore;
+  late SplashController _splashController;
 
   late Timer _timer;
 
@@ -49,7 +49,7 @@ class _SplashScState extends State<SplashSc> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    _controllerStore = locator<ControllerStore>();
+    _splashController = locator<SplashController>();
     _storage.setLogin();
 
     _startTimer();
@@ -141,7 +141,7 @@ class _SplashScState extends State<SplashSc> with TickerProviderStateMixin {
                             richText2: "Sign up",
                             buttonText: "Login With Email",
                             titleFunc: () {
-                              _controllerStore.setRegister();
+                              _splashController.setRegister();
                               _storage.setRegister();
                               Navigator.pushReplacement(
                                   context,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:meditation/controller/controller_store.dart';
+import 'package:meditation/controller/splash_controller.dart';
 import 'package:meditation/screens/splash/login_register.dart';
 import 'package:meditation/screens/splash/sign_up.dart';
 import 'package:meditation/utils/locator.dart';
@@ -32,11 +32,11 @@ class MostUsedBtn extends StatefulWidget {
 
 class _MostUsedBtnState extends State<MostUsedBtn> {
 
-  late ControllerStore _controllerStore;
+  late SplashController _splashController;
   @override
   void initState() {
     // TODO: implement initState
-    _controllerStore = locator<ControllerStore>();
+    _splashController = locator<SplashController>();
     super.initState();
   }
 

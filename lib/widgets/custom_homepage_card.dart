@@ -23,7 +23,7 @@ class CustomCard extends StatelessWidget {
           color: Colors.white,
         ),
         width: double.infinity,
-        height: MediaQuery.of(context).size.height / 4.5,
+        height: MediaQuery.of(context).size.height / 3.5,
         child: LayoutBuilder(
             builder: (context, constraints) => Row(
                   crossAxisAlignment: CrossAxisAlignment.center,

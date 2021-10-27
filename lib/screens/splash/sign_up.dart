@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:meditation/controller/controller_store.dart';
-import 'package:meditation/controller/form_store.dart';
+import 'package:meditation/controller/splash_controller.dart';
+import 'package:meditation/controller/form_controller.dart';
 import 'package:meditation/utils/locator.dart';
 import 'package:meditation/utils/show_snack_bar.dart';
 import 'package:meditation/widgets/most_used_btn.dart';
@@ -16,15 +16,15 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  late ControllerStore _controllerStore;
-  late FormStore _formStore;
+  late SplashController _splashController;
+  late FormController _formController;
 
   @override
   void initState() {
     // TODO: implement initState
-    _controllerStore = locator<ControllerStore>();
-    _formStore = locator<FormStore>();
-    _formStore.validateAll();
+    _splashController = locator<SplashController>();
+    _formController = locator<FormController>();
+    _formController.validateAll();
 
     super.initState();
   }
@@ -72,15 +72,15 @@ class _SignUpState extends State<SignUp> {
               size: size,
               function: () {
                 print("sign Up");
-                _formStore.canRegister?
+                _formController.canRegister?
                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  const MainHomePage(),)):Utils(context).showSnackBar("please fill all field's corectly", Icons.warning, Colors.amber);
               },
               richText: "Have an account ?",
               richText2: "Login",
               buttonText: "Sign Up",
               titleFunc: () {
-                _controllerStore.switchToLogin();
-                _controllerStore.setLogin();
+                _splashController.switchToLogin();
+                _splashController.setLogin();
               },
             ),
           )
@@ -108,15 +108,15 @@ class _SignUpState extends State<SignUp> {
   void onChanged(int number, String value) {
     switch (number) {
       case (0):
-        _formStore.validateUsername(value);
+        _formController.validateUsername(value);
         break;
 
       case (1):
-        _formStore.validateEmail(value);
+        _formController.validateEmail(value);
         break;
 
       case (2):
-        _formStore.validatePassword(value);
+        _formController.validatePassword(value);
         break;
     }
   }
@@ -124,13 +124,13 @@ class _SignUpState extends State<SignUp> {
   String errorText(int number) {
     switch (number) {
       case (0):
-        return _formStore.error.username ?? "";
+        return _formController.error.username ?? "";
 
       case (1):
-        return _formStore.error.email ?? "";
+        return _formController.error.email ?? "";
 
       case (2):
-        return _formStore.error.password ?? "";
+        return _formController.error.password ?? "";
 
       default:
         return "";

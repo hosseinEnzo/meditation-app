@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:lottie/lottie.dart';
-import 'package:meditation/controller/controller_store.dart';
+import 'package:meditation/controller/splash_controller.dart';
 import 'package:meditation/screens/splash/sign_up.dart';
 import 'package:meditation/utils/locator.dart';
 import 'package:meditation/utils/storage.dart';
@@ -22,7 +22,7 @@ class LoginRegister extends StatefulWidget {
 }
 
 class _LoginRegisterState extends State<LoginRegister> {
-  late ControllerStore _controllerStore;
+  late SplashController _splashController;
 
   List<Widget> pages = const [Login(), SignUp()];
   Storage storage = Storage();
@@ -32,7 +32,7 @@ class _LoginRegisterState extends State<LoginRegister> {
 
     if (page == "register") {
       await Future.delayed(const Duration(milliseconds: 500), () {
-        _controllerStore.pageController.nextPage(
+        _splashController.pageController.nextPage(
             duration: const Duration(seconds: 1), curve: Curves.bounceOut);
       });
       storage.setRegister();
@@ -43,7 +43,7 @@ class _LoginRegisterState extends State<LoginRegister> {
   void initState() {
     // TODO: implement initState
 
-    _controllerStore = locator<ControllerStore>();
+    _splashController = locator<SplashController>();
     selectPage();
 
     super.initState();
@@ -72,7 +72,7 @@ class _LoginRegisterState extends State<LoginRegister> {
             padding: const EdgeInsets.only(top: 18.0, left: 20, right: 20),
             child: Observer(
               builder: (context) => PageView.builder(
-                controller: _controllerStore.pageController,
+                controller: _splashController.pageController,
 
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
