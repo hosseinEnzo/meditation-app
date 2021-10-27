@@ -71,6 +71,8 @@ class _SplashScState extends State<SplashSc> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+
+
     _controller.forward();
     print(_animation);
     final size = MediaQuery.of(context).size;

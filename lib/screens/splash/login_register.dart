@@ -51,16 +51,22 @@ class _LoginRegisterState extends State<LoginRegister> {
 
   @override
   Widget build(BuildContext context) {
+    bool keyboardIsClose =MediaQuery.of(context).viewInsets.bottom ==0;
+
+
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
         body: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-            width: double.infinity,
-            height: MediaQuery.of(context).size.width * 0.9,
-            child: Lottie.asset("assets/animation/meditation.json")),
+        Visibility(
+          visible: keyboardIsClose?true:false,
+          child: SizedBox(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.width * 0.9,
+              child: Lottie.asset("assets/animation/meditation.json")),
+        ),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.only(top: 18.0, left: 20, right: 20),
