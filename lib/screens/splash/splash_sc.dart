@@ -11,6 +11,7 @@ import 'package:meditation/utils/storage.dart';
 import 'package:meditation/widgets/most_used_btn.dart';
 
 import '../../consts.dart';
+
 class SplashSc extends StatefulWidget {
   const SplashSc({Key? key}) : super(key: key);
 
@@ -20,8 +21,7 @@ class SplashSc extends StatefulWidget {
 
 class _SplashScState extends State<SplashSc> with TickerProviderStateMixin {
   bool iconShouldUp = false;
-  final Storage _storage =Storage();
-
+  final Storage _storage = Storage();
 
   late AnimationController _controller;
   late Animation<double> _animation =
@@ -83,11 +83,10 @@ class _SplashScState extends State<SplashSc> with TickerProviderStateMixin {
               child: ImageFiltered(
                 imageFilter: ImageFilter.blur(
                     sigmaX: iconShouldUp ? 5 : 0, sigmaY: iconShouldUp ? 5 : 0),
-                child: Image.asset(kSplashPic,
-                    fit: BoxFit.fitHeight),
+                child: Image.asset(kSplashPic, fit: BoxFit.fitHeight),
               )),
           AnimatedPositioned(
-            top: iconShouldUp ? 100 : 250,
+            top: iconShouldUp ? 50 : 250,
             duration: const Duration(seconds: 1),
             curve: Curves.fastOutSlowIn,
             child: SizedBox(
@@ -116,10 +115,15 @@ class _SplashScState extends State<SplashSc> with TickerProviderStateMixin {
                           const SizedBox(
                             height: 10,
                           ),
-                          const Text(
-                            "Do meditation. Stay focused.Live a healthy life",
-                            style: TextStyle(fontSize: 25, color: Colors.white),
-                            textAlign: TextAlign.center,
+                          const Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 8.0, horizontal: 14),
+                            child: Text(
+                              "Do meditation. Stay focused.Live a healthy life",
+                              style:
+                                  TextStyle(fontSize: 25, color: Colors.white),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                           MostUsedBtn(
                             size: size,

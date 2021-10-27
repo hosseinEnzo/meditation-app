@@ -6,8 +6,13 @@ part 'player_controller.g.dart';
 class PlayerStore = _PlayerStore with _$PlayerStore;
 
 abstract class _PlayerStore with Store {
+
+
   @observable
   String imageAdress = "";
+
+  @observable
+  bool isPlaying = false;
 
   @observable
   String songName = "";
@@ -20,6 +25,11 @@ abstract class _PlayerStore with Store {
   @action
   void setImage(String address) {
     imageAdress = address;
+  }
+
+  @action
+  void playPause() {
+    isPlaying =!isPlaying;
   }
 
   @action

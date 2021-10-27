@@ -24,6 +24,21 @@ mixin _$PlayerStore on _PlayerStore, Store {
     });
   }
 
+  final _$isPlayingAtom = Atom(name: '_PlayerStore.isPlaying');
+
+  @override
+  bool get isPlaying {
+    _$isPlayingAtom.reportRead();
+    return super.isPlaying;
+  }
+
+  @override
+  set isPlaying(bool value) {
+    _$isPlayingAtom.reportWrite(value, super.isPlaying, () {
+      super.isPlaying = value;
+    });
+  }
+
   final _$songNameAtom = Atom(name: '_PlayerStore.songName');
 
   @override
@@ -68,6 +83,17 @@ mixin _$PlayerStore on _PlayerStore, Store {
   }
 
   @override
+  void playPause() {
+    final _$actionInfo = _$_PlayerStoreActionController.startAction(
+        name: '_PlayerStore.playPause');
+    try {
+      return super.playPause();
+    } finally {
+      _$_PlayerStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setName(String name) {
     final _$actionInfo = _$_PlayerStoreActionController.startAction(
         name: '_PlayerStore.setName');
@@ -82,6 +108,7 @@ mixin _$PlayerStore on _PlayerStore, Store {
   String toString() {
     return '''
 imageAdress: ${imageAdress},
+isPlaying: ${isPlaying},
 songName: ${songName},
 flip: ${flip}
     ''';

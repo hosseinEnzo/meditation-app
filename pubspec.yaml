@@ -47,6 +47,8 @@ dependencies:
   auto_animated: ^3.0.0
   fl_chart: ^0.40.2
   wave: ^0.2.0
+  just_audio: ^0.9.14
+
 
 
 
@@ -80,6 +82,7 @@ flutter:
      - assets/images/
      - assets/icons/
      - assets/animation/
+     - assets/audio/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

@@ -1,6 +1,8 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:lottie/lottie.dart';
 import 'package:meditation/consts.dart';
 import 'package:meditation/controller/player_controller.dart';
 import 'package:meditation/utils/locator.dart';
@@ -15,13 +17,16 @@ class Player extends StatefulWidget {
   State<Player> createState() => _PlayerState();
 }
 
-class _PlayerState extends State<Player> {
+class _PlayerState extends State<Player> with SingleTickerProviderStateMixin {
   late PlayerStore _playerStore;
+  late final AnimationController _animationController;
 
   @override
   void initState() {
     // TODO: implement initState
     _playerStore = locator<PlayerStore>();
+    _animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 1500));
     super.initState();
   }
 
@@ -69,7 +74,20 @@ class _PlayerState extends State<Player> {
                 )),
             Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: List.generate(5, (index) => Icon(icon(index),color: Colors.white,size:index==2?100: 33,))),
+                children: List.generate(
+                    5,
+                    (index) => index == 2
+                        ? GestureDetector(
+                            onTap: () {
+
+                            },
+                            child: Icon(Icons.add)
+                          )
+                        : Icon(
+                            icon(index),
+                            color: Colors.white,
+                            size: index == 2 ? 100 : 33,
+                          ))),
             WaveBar(),
           ],
         ),
