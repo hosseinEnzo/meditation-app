@@ -3,10 +3,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:meditation/controller/splash_controller.dart';
 import 'package:meditation/screens/splash/login_register.dart';
-import 'package:meditation/utils/locator.dart';
 import 'package:meditation/utils/storage.dart';
 import 'package:meditation/widgets/most_used_btn.dart';
 
@@ -24,9 +24,10 @@ class _SplashScState extends State<SplashSc> with TickerProviderStateMixin {
   final Storage _storage = Storage();
 
   late AnimationController _controller;
-  late Animation<double> _animation =
+  late Animation<double> animation =
       CurvedAnimation(parent: _controller, curve: Curves.easeIn);
-  late SplashController _splashController;
+
+  // late SplashController _splashController;
 
   late Timer _timer;
 
@@ -49,7 +50,6 @@ class _SplashScState extends State<SplashSc> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    _splashController = locator<SplashController>();
     _storage.setLogin();
 
     _startTimer();
@@ -71,10 +71,8 @@ class _SplashScState extends State<SplashSc> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-
-
     _controller.forward();
-    print(_animation);
+    print(animation);
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
@@ -96,14 +94,14 @@ class _SplashScState extends State<SplashSc> with TickerProviderStateMixin {
               child: kSplashLogo,
             ),
           ),
-          _animation.value < 1.0
+          animation.value < 1.0
               ? Container()
               : Positioned(
                   bottom: 140,
                   left: 0,
                   right: 0,
                   child: FadeTransition(
-                      opacity: _animation,
+                      opacity: animation,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -127,29 +125,25 @@ class _SplashScState extends State<SplashSc> with TickerProviderStateMixin {
                               textAlign: TextAlign.center,
                             ),
                           ),
-                          MostUsedBtn(
-                            size: size,
-                            function: () {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const LoginRegister(),
-                                  ));
-                              print("loginh");
-                            },
-                            richText: "Don't have an account ?",
-                            richText2: "Sign up",
-                            buttonText: "Login With Email",
-                            titleFunc: () {
-                              _splashController.setRegister();
-                              _storage.setRegister();
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const LoginRegister(),
-                                  ));
-                            },
-                          )
+                          GetBuilder<SplashController>(
+                              init: SplashController(),
+                              builder: (controller) {
+                                return MostUsedBtn(
+                                  size: size,
+                                  function: () =>
+                                      Get.off(const LoginRegister()),
+                                  richText: "Don't have an account ?",
+                                  richText2: "Sign up",
+                                  buttonText: "Login With Email",
+                                  titleFunc: () {
+                                    controller.setRegister();
+                                    _storage.setRegister();
+                                    Get.off(
+                                      const LoginRegister(),
+                                    );
+                                  },
+                                );
+                              })
                         ],
                       )),
                 ),

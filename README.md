@@ -1,6 +1,7 @@
 # meditation
 
-A new Flutter project.
+here is meditation ui application implemented with flutter and getX.
+if you want to contact me  you can reach me via telegram , @riverpod
 
 ## Getting Started
 

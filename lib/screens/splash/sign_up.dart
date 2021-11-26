@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get/get.dart';
 import 'package:meditation/controller/splash_controller.dart';
 import 'package:meditation/controller/form_controller.dart';
 import 'package:meditation/utils/locator.dart';
@@ -23,8 +23,8 @@ class _SignUpState extends State<SignUp> {
   void initState() {
     // TODO: implement initState
     _splashController = locator<SplashController>();
-    _formController = locator<FormController>();
-    _formController.validateAll();
+    _formController = Get.put(FormController());
+
 
     super.initState();
   }
@@ -51,8 +51,8 @@ class _SignUpState extends State<SignUp> {
                         decoration: const BoxDecoration(
                             border: Border(
                                 bottom: BorderSide(color: Colors.white70))),
-                        child: Observer(
-                          builder: (context) => TextField(
+                        child: Obx(
+                          () => TextField(
                             onChanged: (value) => onChanged(index, value),
                             style: const TextStyle(color: Colors.white),
                             cursorColor: Colors.green,
@@ -72,18 +72,23 @@ class _SignUpState extends State<SignUp> {
               size: size,
               function: () {
                 print("sign Up");
-                _formController.canRegister?
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  const MainHomePage(),)):Utils(context).showSnackBar("please fill all field's corectly", Icons.warning, Colors.amber);
+                _formController.canRegister()
+                    ? Get.off(const MainHomePage())
+                    : Utils(context).showSnackBar(
+                        "please fill all field's correctly",
+                        Icons.warning,
+                        Colors.amber);
               },
               richText: "Have an account ?",
               richText2: "Login",
               buttonText: "Sign Up",
               titleFunc: () {
+
                 _splashController.switchToLogin();
                 _splashController.setLogin();
               },
             ),
-          )
+          ),
         ],
       ),
     );
@@ -108,7 +113,7 @@ class _SignUpState extends State<SignUp> {
   void onChanged(int number, String value) {
     switch (number) {
       case (0):
-        _formController.validateUsername(value);
+        _formController.validateName(value);
         break;
 
       case (1):
@@ -124,13 +129,13 @@ class _SignUpState extends State<SignUp> {
   String errorText(int number) {
     switch (number) {
       case (0):
-        return _formController.error.username ?? "";
+        return _formController.nameError.value;
 
       case (1):
-        return _formController.error.email ?? "";
+        return _formController.emailError.value;
 
       case (2):
-        return _formController.error.password ?? "";
+        return _formController.passError.value;
 
       default:
         return "";

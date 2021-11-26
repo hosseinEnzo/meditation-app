@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:meditation/controller/splash_controller.dart';
 import 'package:meditation/controller/form_controller.dart';
 import 'package:meditation/utils/locator.dart';
@@ -7,6 +6,7 @@ import 'package:meditation/widgets/most_used_btn.dart';
 import '../../utils/show_snack_bar.dart';
 import '../../main.dart';
 import '../main_pages/main_home_page.dart';
+import 'package:get/get.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -22,9 +22,9 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     // TODO: implement initState
+
     _splashController = locator<SplashController>();
-    _formController = locator<FormController>();
-    _formController.validateAll();
+    _formController =Get.put(FormController());
 
     super.initState();
   }
@@ -50,8 +50,8 @@ class _LoginState extends State<Login> {
                         decoration: const BoxDecoration(
                             border: Border(
                                 bottom: BorderSide(color: Colors.white70))),
-                        child: Observer(
-                          builder: (context) => TextField(
+                        child: Obx(
+                          () => TextField(
                             onChanged: (value) => index == 0
                                 ? _formController.validateEmail(value)
                                 : _formController.validatePassword(value),
@@ -60,8 +60,8 @@ class _LoginState extends State<Login> {
                             cursorColor: Colors.green,
                             decoration: InputDecoration(
                                 errorText: index == 0
-                                    ? _formController.error.email
-                                    : _formController.error.password,
+                                    ? _formController.emailError.value
+                                    : _formController.passError.value,
                                 border: InputBorder.none,
                                 hintText: index == 0 ? "Email" : "Password",
                                 hintStyle:
@@ -72,28 +72,30 @@ class _LoginState extends State<Login> {
                     )),
           ),
           Center(
-            child: MostUsedBtn(
-              size: size,
-              function: () {
-                print("loginh");
-                _formController.canLogin
-                    ? Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MainHomePage(),
-                        ))
-                    : Utils(context).showSnackBar("please fill all field's corectly", Icons.warning, Colors.amber);
-              },
-              richText: "Don’t have an account",
-              richText2: "Sign Up",
-              buttonText: "login",
-              titleFunc: () {
-                _splashController.switchToRegister();
+            child:
+               MostUsedBtn(
+                size: size,
+                function: () {
+                  print("loginh");
+                  _formController.canLogin()
+                      ? Get.off(const MainHomePage(),
+                          )
+                      : Utils(context).showSnackBar(
+                          "please fill all field's correctly",
+                          Icons.warning,
+                          Colors.amber);
+                },
+                richText: "Don’t have an account",
+                richText2: "Sign Up",
+                buttonText: "login",
+                titleFunc: () {
+                  _splashController.switchToRegister();
 
-                _splashController.setRegister();
-              },
+                  _splashController.setRegister();
+                },
+              ),
             ),
-          )
+
         ],
       ),
     );

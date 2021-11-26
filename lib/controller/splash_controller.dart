@@ -1,36 +1,31 @@
 import 'package:flutter/cupertino.dart';
-import 'package:mobx/mobx.dart';
+import 'package:get/get.dart';
 
-part "splash_controller.g.dart";
-
-class SplashController = _SplashController with _$SplashController;
-
-abstract class _SplashController with Store {
-  @observable
+class SplashController extends GetxController {
   PageController pageController = PageController();
-
-  @observable
   String loginRegister = "login";
 
-  @action
   void switchToLogin() {
+    pageController.hasClients?
     pageController.animateToPage(0,
-        duration: const Duration(seconds: 1), curve: Curves.bounceOut);
+        duration: const Duration(seconds: 1), curve: Curves.bounceOut):print("has not client");
+    update();
   }
 
-  @action
   void switchToRegister() {
+    pageController.hasClients?
     pageController.animateToPage(1,
-        duration: const Duration(seconds: 1), curve: Curves.bounceOut);
+        duration: const Duration(seconds: 1), curve: Curves.bounceOut):print("has not client");
+    update();
   }
 
-  @action
   void setRegister() {
     loginRegister = "register";
+    update();
   }
 
-  @action
   void setLogin() {
     loginRegister = "login";
+    update();
   }
 }

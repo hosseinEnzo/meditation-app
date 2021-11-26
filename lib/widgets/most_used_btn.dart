@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:meditation/controller/splash_controller.dart';
 import 'package:meditation/screens/splash/login_register.dart';
 import 'package:meditation/screens/splash/sign_up.dart';
-import 'package:meditation/utils/locator.dart';
 
 import '../consts.dart';
 
@@ -36,7 +34,6 @@ class _MostUsedBtnState extends State<MostUsedBtn> {
   @override
   void initState() {
     // TODO: implement initState
-    _splashController = locator<SplashController>();
     super.initState();
   }
 
@@ -80,7 +77,7 @@ class _MostUsedBtnState extends State<MostUsedBtn> {
                       style: const TextStyle(fontSize: 20),
                       children: <TextSpan>[
                     TextSpan(
-                        text: widget.richText2,
+                        text: "  "+widget.richText2,
                         style: const TextStyle(fontWeight: FontWeight.bold))
                   ])),
             ),

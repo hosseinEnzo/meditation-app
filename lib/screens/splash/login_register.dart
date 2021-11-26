@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
+
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meditation/controller/splash_controller.dart';
 import 'package:meditation/screens/splash/sign_up.dart';
 import 'package:meditation/utils/locator.dart';
+
 import 'package:meditation/utils/storage.dart';
 import 'package:meditation/widgets/most_used_btn.dart';
 
@@ -23,6 +25,8 @@ class LoginRegister extends StatefulWidget {
 
 class _LoginRegisterState extends State<LoginRegister> {
   late SplashController _splashController;
+
+
 
   List<Widget> pages = const [Login(), SignUp()];
   Storage storage = Storage();
@@ -51,38 +55,48 @@ class _LoginRegisterState extends State<LoginRegister> {
 
   @override
   Widget build(BuildContext context) {
-    bool keyboardIsClose =MediaQuery.of(context).viewInsets.bottom ==0;
+    bool keyboardIsClose = MediaQuery
+        .of(context)
+        .viewInsets
+        .bottom == 0;
 
 
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery
+        .of(context)
+        .size;
 
     return Scaffold(
         body: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Visibility(
-          visible: keyboardIsClose?true:false,
-          child: SizedBox(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.width * 0.9,
-              child: Lottie.asset("assets/animation/meditation.json")),
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 18.0, left: 20, right: 20),
-            child: Observer(
-              builder: (context) => PageView.builder(
-                controller: _splashController.pageController,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Visibility(
+              visible: keyboardIsClose ? true : false,
+              child: SizedBox(
+                  width: double.infinity,
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.9,
+                  child: Lottie.asset("assets/animation/meditation.json")),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 18.0, left: 20, right: 20),
+                child: GetBuilder(
+                  init: SplashController(),
+                  builder: (controller) =>
+                      PageView.builder(
+                        controller: _splashController.pageController,
 
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return pages[index];
-                },
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return pages[index];
+                        },
+                      ),
+                ),
               ),
             ),
-          ),
-        ),
-      ],
-    ));
+          ],
+        ));
   }
 }

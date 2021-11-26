@@ -1,13 +1,14 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get/get.dart';
 
 import 'package:meditation/consts.dart';
 import 'package:meditation/controller/player_controller.dart';
-import 'package:meditation/utils/locator.dart';
+
 import 'package:meditation/widgets/wave_bar.dart';
 import 'package:flutter_neumorphic_null_safety/flutter_neumorphic.dart';
+
 class Player extends StatefulWidget {
   const Player({
     Key? key,
@@ -25,18 +26,19 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
   @override
   void initState() {
     // TODO: implement initState
-    _playerController = locator<PlayerController>();
+    _playerController = Get.put(PlayerController());
     _animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 1500));
     _animatedIconController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 1000));
-    _playerController.setDuration();
-    _playerController.player.play();
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    // print("wew"+_playerController.position.inSeconds.toDouble().toString());
+    print(_playerController.position.obs.value);
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -46,13 +48,14 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
             Center(
               child: CircleAvatar(
                 radius: 120,
-                backgroundImage: AssetImage(_playerController.imageAdress),
+                backgroundImage:
+                    AssetImage(_playerController.imageAdress.value),
               ),
             ),
             Column(
               children: [
                 Text(
-                  _playerController.songName,
+                  _playerController.songName.value,
                   style: const TextStyle(
                       color: Colors.white,
                       fontSize: 32,
@@ -70,22 +73,35 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
             SliderTheme(
                 data: const SliderThemeData(
                     thumbShape: RoundSliderThumbShape(enabledThumbRadius: 7)),
-                child: Observer(builder: (context) => Slider(
+                child:  Obx(
+                    ()=>Slider(
 
-                    value: _playerController.position.inSeconds.toDouble(),
-                    max: _playerController.duration!.inSeconds.toDouble(),
-
-                    onChanged: (value) => _playerController.seekTo(Duration(seconds: value.toInt())),
-                    activeColor: kGreenLight,
-                    thumbColor: kGreenLight,
-                  ),
+                        value: _playerController.position.value.toDouble(),
+                        min: 0.0,
+                        max:
+                            _playerController.duration.value.inSeconds.toDouble(),
+                        onChanged: (value) {
+                          print("siso");
+                          print(value);
+                          _playerController
+                            .seekTo(Duration(seconds: value.toInt()));},
+                        activeColor: kGreenLight,
+                        thumbColor: kGreenLight,
+                      ),
                 )),
-            Observer(
-
-              builder: (context) =>  Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+            Obx(
+              () => Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text(_playerController.position.inSeconds.toString()),
-                  Text(_playerController.duration.toString())
+                  Text(
+              Duration(seconds: _playerController.position.value).toString().split('.')[0]
+                   ,
+                    style: const TextStyle(color: Colors.grey,fontSize: 25),
+                  ),
+                  Text(
+                      Duration(seconds: _playerController.duration.value.inSeconds).toString().split('.')[0],
+                    style: const TextStyle(color: Colors.grey,fontSize: 25),
+                  )
                 ],
               ),
             ),
@@ -95,33 +111,35 @@ class _PlayerState extends State<Player> with TickerProviderStateMixin {
                     5,
                     (index) => index == 2
                         ? NeumorphicButton(
-                          onPressed: (){
-                            _playerController.isPlaying
-                                ? _animatedIconController.forward()
-                                : _animatedIconController.reverse();
-                            print(_playerController.isPlaying);
-                            _playerController.playPause();
-
-                          },
-
-
-
-                          style:NeumorphicStyle(boxShape: const NeumorphicBoxShape.circle(),intensity: 0.3,color: kGreenLight,depth: -20, ) ,
-                          child: Container(
-                            width: 80,
-                            height: 80,
-
-                            decoration: BoxDecoration(shape: BoxShape.circle,color: kGreenDark,),
-
-                            alignment: Alignment.center,
-                            child: AnimatedIcon(
-                              icon: AnimatedIcons.pause_play,
-                              progress: _animatedIconController,
+                            onPressed: () {
+                              _playerController.isPlaying.value
+                                  ? _animatedIconController.forward()
+                                  : _animatedIconController.reverse();
+                              print(_playerController.isPlaying);
+                              _playerController.playPause();
+                            },
+                            style: NeumorphicStyle(
+                              boxShape: const NeumorphicBoxShape.circle(),
+                              intensity: 0.3,
                               color: kGreenLight,
-                              size: 50,
+                              depth: -20,
                             ),
-                          ),
-                        )
+                            child: Container(
+                              width: 80,
+                              height: 80,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: kGreenDark,
+                              ),
+                              alignment: Alignment.center,
+                              child: AnimatedIcon(
+                                icon: AnimatedIcons.pause_play,
+                                progress: _animatedIconController,
+                                color: kGreenLight,
+                                size: 50,
+                              ),
+                            ),
+                          )
                         : Icon(
                             icon(index),
                             color: Colors.white,
@@ -142,8 +160,6 @@ IconData icon(int index) {
     case (1):
       return Icons.skip_previous_rounded;
 
-    case (2):
-      return Icons.pause_circle_filled;
     case (3):
       return Icons.skip_next_rounded;
     case (4):

@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get/get.dart';
 import 'package:meditation/controller/player_controller.dart';
 import 'package:meditation/screens/main_pages/player/player.dart';
-import 'package:meditation/utils/locator.dart';
 
 class SongWidget extends StatefulWidget {
   const SongWidget({
@@ -30,7 +29,7 @@ class _SongWidgetState extends State<SongWidget> {
   @override
   void initState() {
     // TODO: implement initState
-    _playerController = locator<PlayerController>();
+    _playerController =Get.put(PlayerController());
     super.initState();
   }
 
@@ -43,6 +42,7 @@ class _SongWidgetState extends State<SongWidget> {
         onTap: () {
           _playerController.setImage(widget.imgAddress);
           _playerController.setName(widget.topTitle);
+          _playerController.loadSong();
           Navigator.push(context, CupertinoPageRoute(builder:  (context) => const Player(),));
 
         },

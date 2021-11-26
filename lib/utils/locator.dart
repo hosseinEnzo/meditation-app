@@ -8,8 +8,6 @@ final GetIt locator = GetIt.instance;
 
 void setupLocator() {
   locator.registerLazySingleton(() => SplashController());
-  locator.registerFactory(() => FormController());
-  locator.registerLazySingleton(() => HomeController());
-  locator.registerLazySingleton(() => PlayerController());
+
 
 }

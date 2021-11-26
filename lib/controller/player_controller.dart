@@ -1,57 +1,58 @@
-import 'dart:ffi';
+import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:get/get.dart';
 
-import 'package:flutter/cupertino.dart';
-import 'package:just_audio/just_audio.dart';
-import 'package:mobx/mobx.dart';
+final assetsAudioPlayer = AssetsAudioPlayer();
 
-part 'player_controller.g.dart';
+class PlayerController extends GetxController {
+  RxString imageAdress = "".obs;
+  RxBool isPlaying = false.obs;
+  RxString songName = "".obs;
+  RxInt position = 0.obs;
+  final Rx<Duration> duration = Duration.zero.obs;
 
-class PlayerController = _PlayerController with _$PlayerController;
-
-abstract class _PlayerController with Store {
-  @observable
-  var player = AudioPlayer();
-
-  @observable
-  Duration? duration;
-
-
-
-  @action
-  Future<void> setDuration() async {
-    duration = await player.setAsset('assets/audio/song.mp3');
+  void loadSong() async {
+    await assetsAudioPlayer.open(
+      Audio("assets/audio/song.mp3"),
+    );
+    duration.value = assetsAudioPlayer.current.value!.audio.duration;
+    isPlaying.value = !isPlaying.value;
+    currentPosition();
   }
 
-  @observable
-  String imageAdress = "";
-
-  @observable
-  bool isPlaying = false;
-
-  @observable
-  String songName = "";
-
-  @action
   void setImage(String address) {
-    imageAdress = address;
+    imageAdress.value = address;
   }
 
-  @action
-  void playPause() {
-    isPlaying ? player.pause() : player.play();
-    isPlaying = !isPlaying;
+  void playPause() async {
+    await assetsAudioPlayer.playOrPause();
+    isPlaying.value = !isPlaying.value;
   }
 
-  @action
-  void seekTo(Duration duration) {
-    player.seek(duration);
+  void currentPosition() {
+    assetsAudioPlayer.currentPosition.asBroadcastStream().forEach((element) {
+      position.value = element.inSeconds;
+    });
   }
 
-  @action
+  void seekTo(Duration duration) async {
+    print(duration);
+    assetsAudioPlayer.seek(Duration(seconds: duration.inSeconds));
+  }
+
   void setName(String name) {
-    songName = name;
+    songName.value = name;
   }
 
-  @computed
-  Duration get position =>player.position;
+  @override
+  void onInit() {
+    // TODO: implement onInit
+
+    super.onInit();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 }

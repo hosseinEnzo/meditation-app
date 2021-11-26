@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:meditation/consts.dart';
 import 'package:meditation/controller/home_controller.dart';
 import 'package:meditation/screens/main_pages/player/playlist.dart';
 import 'package:meditation/screens/main_pages/profile.dart';
-import 'package:meditation/utils/locator.dart';
 
 import 'home.dart';
 
@@ -25,7 +24,7 @@ class _MainHomePageState extends State<MainHomePage> {
   @override
   void initState() {
     // TODO: implement initState
-    _homeController = locator<HomeController>();
+    _homeController =Get.put(HomeController());
 
     super.initState();
   }
@@ -37,7 +36,7 @@ class _MainHomePageState extends State<MainHomePage> {
           appBar: AppBar(
             title: SizedBox(
               width: MediaQuery.of(context).size.width,
-              child: Observer(
+              child: GetBuilder<HomeController>(
                 builder: (context) =>
                 Row(
                   mainAxisSize: MainAxisSize.max,
@@ -65,9 +64,10 @@ class _MainHomePageState extends State<MainHomePage> {
             ),
 
 
-          bottomNavigationBar: Observer(
+          bottomNavigationBar: GetBuilder(
+            init: HomeController(),
 
-            builder: (context) => Row(
+            builder: (controller) => Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 GestureDetector(
