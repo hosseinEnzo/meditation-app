@@ -1,6 +1,6 @@
 # meditation
 
-here is meditation ui application implemented with flutter and getX.
+Here is meditation ui  implemented using  flutter and i used getX as state management .
 if you want to contact me  you can reach me via telegram , @riverpod
 
 ## Getting Started
