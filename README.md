@@ -1,8 +1,8 @@
 # meditation
 
 Here is meditation ui  implemented using  flutter for android/ios devices and i used getX as state management .
-if you want to contact me  you can reach me via telegram , @riverpod
-https://t.me//riverpod
+
+
 
 
 ## Getting Started
